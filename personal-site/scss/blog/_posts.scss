@@ -1,0 +1,410 @@
+.posts {
+
+    &__item,
+    &__add-post {
+        padding: 1.2em 1.5em;
+    }
+
+    &__item:not(:last-child) {
+        border-bottom: 1px solid $accentOne;
+    }
+
+    &__title {
+        font-size: 2.7em;
+        color: $primaryColor;
+        text-align: center;
+    }
+
+    &__short-content {
+        padding-top: 1em;
+        font-size: 1.3em;
+    }
+
+    &__read-more {
+        font-style: italic;
+        font-weight: 700;
+
+        a {
+            text-decoration: none;
+            font-weight: 800;
+            color: $accentOne;
+        }
+    }
+
+    &__published {
+        padding: 1em 0;
+        p {
+            font-weight: 700;
+            font-size: 1.3em;
+            color: $primaryColor;
+        }   
+    }
+
+    &__tags ul {
+        width: 100%;
+        display: inline-flex;
+        flex-wrap: wrap;
+        list-style-type: none;
+    }
+
+    &__tags li {
+        font-family: 'BBT Martires';
+        background: $primaryColor;
+        padding: 6px;
+        border-radius: 22px;
+        font-weight: 700;
+        color: $secondaryColor;
+        margin-right: .6em;
+    }
+
+    &__tags li a {
+        background: $secondaryColor;
+        margin-left: 10px;
+        text-decoration: none;
+        color: $primaryColor;
+        border-radius: 50%;
+        padding: 2px 7px;
+    }
+
+    &__container {
+        display: block;
+        width: 80%;
+        margin: 5em auto;
+
+        h1 {
+            padding: 1.5rem;
+        }
+
+        .posts__tags {
+            padding-bottom: 1.8rem;
+        }
+    }
+
+    &__more-blogs {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        flex-flow: row nowrap;
+    }
+    
+    &__more-blogs p {
+        font-size: 1.2em;
+    }
+
+    &__more-blogs ul {
+        display: inline-flex;
+        margin-left: 2rem;
+        list-style: '>>';
+    }
+
+    &__more-blogs ul li {
+        margin-right: 2em;
+    }
+
+    &__more-blogs li a {
+        font-size: 1.3em;
+        font-weight: 700;
+        font-family: 'BBT Martires';
+        text-decoration: none;
+        color: $accentOne;
+    }
+
+    &__more-blogs li a:hover {
+        color: $primaryColor;
+        text-decoration: underline;
+    }
+
+    &__content {
+        p {
+            font-size: 1.2em;
+            margin-bottom: 1.125rem;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+
+    &__search {
+        width: 100%;
+    }
+
+    &__search form {
+        width: 60%;
+        margin: 2em auto;
+        display: flex;
+        justify-content: center;
+
+        input[type="text"] {
+            outline: 0;
+            border-width: 0 0 2px;
+            border-color: $primaryColor;
+            background: $secondaryColor;
+            color: $primaryColor;
+            font-family: 'Nunito', verdana;
+            font-size: 1.4em;
+            z-index: 0;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: .3rem;
+            border: none;
+            // border-radius: 12px;
+            width: 120px;
+            background: $accentOne;
+            color: $secondaryColor;
+            font-family: 'Bantayog';
+            font-size: 1.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+    }
+
+    &__random-tags {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    &__random-tags p {
+        text-align: center;
+    }
+
+    &__random-tags p a {
+        font-weight: 700;
+        color: $primaryColor;
+        text-decoration: underline;
+    }
+
+    /**
+     * Post Form Styles
+     */
+    &__form-container form {
+        padding: 2em .7em;
+    }
+
+    &__form-group {
+        margin-top: 1em;
+    }
+
+    &__author-menu {
+        margin-top: 1em;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    &__author-menu a,
+    &__add-post a {
+        text-decoration: none;
+        color: $primaryColor;
+        font-family: 'Bantayog', sans-serif;
+        text-decoration: underline;
+        margin-left: 5px;
+    }
+
+    &__author-menu a:hover,
+    &__add-post a:hover {
+        color: $accentOne;
+        text-decoration: underline;
+    }
+
+    &__manage a {
+        font-family: 'Bantayog', sans-serif;
+        text-decoration: underline;
+        color: $primaryColor;
+        font-weight: 700;
+        font-size: 1.15em;
+    }
+
+    &__manage a:hover {
+        color: $accentOne;
+    }
+}
+
+.autocomplete-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.autocomplete-wrapper .post-search-list {
+    width: 100%;
+    position: absolute;
+    top: 33.6px; /* height of input text */
+    background-color: $secondaryColor;
+    border-left: 1px solid $primaryColor;
+    border-right: 1px solid $primaryColor;
+    border-bottom: 1px solid $primaryColor;
+}
+
+.autocomplete-wrapper .post-search-list .post-search-item {
+    font-family: Nunito;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: $primaryColor;
+    cursor: pointer;
+}
+
+.autocomplete-wrapper .post-search-list .post-search-item:not(:last-child) {
+    border-bottom: 1px solid $accentOne;
+}
+
+.post-search-item span.autoComplete_highlighted {
+    color: $accentOne;
+}
+
+.post-search-item span.post-search-type {
+    font-style: italic;
+}
+
+.post-search-item:hover {
+    background: $accentOne;
+    opacity: .87;
+} 
+
+.post-search-item:hover .autoComplete_highlighted {
+    color: $secondaryColor;
+}
+
+/**
+ * Tooltip with Form
+ *
+ */
+.decipher.tooltip-container {
+	display: inline-block;
+	position: relative;
+	z-index: 2;
+	background: #93deff;;
+	color: white;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	vertical-align: center;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+.decipher.tooltip-container::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    font-size: .75em;
+    position: absolute;
+    top: 2px;
+    left: 6.7px;
+    content: "\f12a";
+}
+
+.decipher.tooltip-container.active::before {
+    left: 5px;
+    content: "\f00d";
+}
+
+.decipher-clue-photo {
+    max-height: 150px;
+    width: 100%;
+}
+
+.notify-container {
+    position: absolute;
+    bottom: 125%;
+    z-index: 9;
+    width: 290px;
+    background: #fff;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.1);
+    font-size: .8em;
+    border-radius: .5em;
+    padding: 1em;
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: transform .5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+}
+
+.notify-container.show {
+    cursor: default;
+    transform: scale(1)
+}
+
+.notify-container .decipher-close {
+    font-size: 1.5em;
+    color: $primaryColor;
+    cursor: pointer;
+    position: absolute;
+    right: 4px;
+    top: 0;
+}
+
+.notify-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.notify-form .notify-form-row p {
+    color: $primaryColor;
+}
+
+.notify-form .notify-form-row input[type="text"] {
+    border: none;
+    border-bottom: 1px solid $primaryColor;
+    max-width: 170px;
+}
+
+.notify-form .notify-form-row button {
+    cursor: pointer;
+}
+
+.notify-form button {
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+    color: $secondaryColor;
+    font-family: 'Nunito';
+    background-color: $accentOne;
+}
+
+.modal .card {
+    position: relative;
+}
+
+.modal .decipher-close {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+
+/**
+ * Decipher form
+ */
+
+
+.decipher-form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: .5em;
+}
+
+.decipher-form-row.code input[type="text"] {
+    border: none;
+    border-bottom: 1px solid $primaryColor;
+    background-color: $secondaryColor;
+    flex-basis: 70%;
+    margin-right: .5em;
+}
+
+.decipher-form-row.code button[type="submit"] {
+    flex-basis: 30%;
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+    color: $secondaryColor;
+    font-family: 'Nunito', sans-serif;
+    background-color: $accentOne;
+    cursor: pointer;
+}

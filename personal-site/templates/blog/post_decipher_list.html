@@ -1,0 +1,103 @@
+{% extends 'base2.html' %}
+
+{% block head_extension %}{% endblock %}
+{% block content %}
+    <section class="deciphers">
+        <div class="posts__manage">
+            {% if post_list == "1" and prev_page_session %}
+            <a href="{% url 'post-list' %}?page={{ prev_page_session }}">Back</a>
+            {% elif post_list == "1" and not prev_page_session %}
+            <a href="{% url 'post-list' %}">Back</a>
+            {% elif prev_page_session %}
+            <a href="{% url 'post-detail' post.id %}?prev_page_session={{ prev_page_session }}">Back</a>
+            {% else %}
+            <a href="{% url 'post-detail' post.id %}">Back</a>
+            {% endif %}
+        </div>
+        <h1 class="deciphers__post-title">{{ post.title }}</h1>
+        <div class="deciphers__list">
+            {% if deciphers %}
+                {% for decipher in deciphers %}
+                <div class="deciphers__item">
+                    <p class="deciphers__name">{{ decipher.name }}</p>
+
+                    {% if is_paginated %}
+                        {% if request.session.authorized and prev_page_session %}
+                            {% if post_list %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_page_session={{ prev_page_session }}&prev_decipher_page_session={{ page_obj.number }}&post_list={{ post_list }}">Edit</a>
+                            {% else %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_page_session={{ prev_page_session }}&prev_decipher_page_session={{ page_obj.number }}">Edit</a>
+                            {% endif %}
+                        {% elif request.session.authorized and not prev_page_session %}
+                            {% if post_list %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_decipher_page_session={{ page_obj.number }}&post_list={{ post_list }}">Edit</a>
+                            {% else %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_decipher_page_session={{ page_obj.number }}">Edit</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if request.session.authorized and prev_page_session %}
+                            {% if post_list %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_decipher_page_session={{ page_obj.number }}&prev_page_session={{ prev_page_session }}&post_list={{ post_list }}">Edit</a>
+                            {% else %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?prev_decipher_page_session={{ page_obj.number }}&prev_page_session={{ prev_page_session }}">Edit</a>
+                            {% endif %}
+                        {% elif request.session.authorized and not prev_page_session %}
+                            {% if post_list %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}?post_list={{ post_list }}">Edit</a>
+                            {% else %}
+                            <a href="{% url 'post-decipher-form' post.id decipher.id %}">Edit</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+            <div class="previous">
+                {% if post_list and prev_page_session %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.previous_page_number }}&prev_page_session={{ prev_page_session }}&post_list={{ post_list }}"><i class="fas fa-chevron-left"></i></a>
+                {% elif post_list and not prev_page_session %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.previous_page_number }}&post_list={{ post_list }}"><i class="fas fa-chevron-left"></i></a>                
+                {% else %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.previous_page_number }}"><i class="fas fa-chevron-left"></i></a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <ul class="bantayog-font">
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li><a href="#" class="active">{{ i }}</a></li>
+                    {% else %}
+                        {% if prev_page_session %}
+                        <li><a href="{% url 'post-decipher-list' post.id %}?page={{ i }}&prev_page_session={{ prev_page_session }}&post_list={{ post_list }}">{{ i }}</a></li>
+                        {% elif not prev_page_session %}
+                        <li><a href="{% url 'post-decipher-list' post.id %}?page={{ i }}&post_list={{ post_list }}">{{ i }}</a></li>                        
+                        {% else %}
+                        <li><a href="{% url 'post-decipher-list' post.id %}?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            {% if page_obj.has_next %}
+            <div class="next">
+                {% if post_list and prev_page_session %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.next_page_number }}&prev_page_session={{ prev_page_session }}&post_list={{ post_list }}"><i class="fas fa-chevron-right"></i></a>
+                {% elif post_list and not prev_page_session %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.next_page_number }}&post_list={{ post_list }}"><i class="fas fa-chevron-right"></i></a>
+                {% else %}
+                <a href="{% url 'post-decipher-list' post.id %}?page={{ page_obj.next_page_number }}"><i class="fas fa-chevron-right"></i></a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </section>
+{% endblock %}
+{% block javascript %}{% endblock %}

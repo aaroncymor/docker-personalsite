@@ -1,0 +1,182 @@
+@import 'config';
+@import 'header';
+@import 'responsive';
+@import 'blog/posts';
+@import 'blog/deciphers';
+@import 'blog/random_tags';
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $secondaryColor;
+    color: $primaryColor;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Utilities */
+.bantayog-font {
+    font-family: 'Bantayog';
+    letter-spacing: 1px;
+}
+
+.bbt-martires-font {
+    font-family: 'BBT Martires';
+    letter-spacing: 2px;
+}
+
+.maragsa-font {
+    font-family: 'Maragsa';
+    letter-spacing: 2px;
+}
+
+.nunito-font {
+    font-family: 'Nunito';
+    letter-spacing: 1.3px;
+}
+
+/* Navigation */
+.main-nav {
+    position: fixed;
+    height: 100vh;
+    width: 26rem;
+    top: 0;
+    bottom: 0;
+    right: -26rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: $accentOne;
+    z-index: 1;
+    transition: all 550ms;
+
+    &__list {
+        list-style-type: none;
+        font-family: 'Maragsa';
+        font-size: 3.8em;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $secondaryColor;
+    }
+
+    &__link:hover {
+        text-decoration: underline;
+        color: $primaryColor;
+    }
+}
+
+.burger-menu {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.burger-menu i {
+    font-size: 1.5em;
+}
+
+.close-menu {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    cursor: pointer;
+}
+
+.close-menu i {
+    font-size: 1.5em;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+}
+
+.pagination .previous a,
+.pagination .next a{
+    text-decoration: none;
+    color: $primaryColor;
+    font-size: 1.4em;
+}
+
+.pagination ul {
+    display: inline-flex;
+    align-items: center;
+}
+
+.pagination ul li {
+    list-style-type: none;
+    font-size: 2em;
+}
+
+.pagination ul li:not(:last-child),
+.pagination .pagination-prev {
+    margin-right: .5em;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    color: $primaryColor;
+}
+
+.pagination ul li a.active {
+    padding: 5px;
+    background-color: $accentOne;
+    color: $primaryColor;
+}
+
+.pagination .pagination-next {
+    margin-left: .5em;
+}
+
+.pagination .pagination-prev a,
+.pagination .pagination-next a {
+    text-decoration: none;
+    color: $primaryColor;
+    font-size: 2em;
+}
+
+/**
+ * Custom Modal 
+ *
+ */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal .card {
+	position: relative;
+	padding: 20px;
+	background-color: $secondaryColor;
+	margin: 55% auto;
+	min-height: 400px;
+	width: 90%;
+	border-radius: 14px;
+	border: 1px solid #888;
+}
+
+.card-body img {
+    height: 100%;
+    width: 100%;
+}

@@ -1,0 +1,59 @@
+{% extends 'base2.html' %}
+
+{% block head_extension %}{% endblock %}
+
+
+{% block content %}
+    <section class="tags">
+        <h1 class="tags__title">Random Tags</h1>
+        <div class="tags__manage">
+            {% if prev_page_session %}
+            <a href="{% url 'post-list' %}?page={{ prev_page_session }}">Back</a>
+            {% else %}
+            <a href="{% url 'post-list' %}">Back</a>
+            {% endif %}
+        </div>
+        <div class="tags__container">
+           {% if tags %}
+            <ul class="tags__list">
+                {% for tag in tags %}
+                    {% if prev_page_session %}
+                    <li class="tags__item">
+                        <a href="{% url 'post-random-tags' %}?tag={{ tag }}&prev_page_session={{ prev_page_session }}">{{ tag }}</a>
+                    </li>
+                    {% else %}
+                    <li class="tags__item">
+                        <a href="{% url 'post-random-tags' %}?tag={{ tag }}">{{ tag }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="tags__results">
+            {% if posts %}
+            <div class="tags__post-list">
+                {% for post in posts %}
+                <div class="tags__post-item">
+                    <h3 class="tags__post-title bantayog-font">
+                        {{ post.title }}
+                    </h3>
+                    <div class="tags__post-shortcontent">
+                        {{ post.short_content_for_list }}
+                    </div>
+                    <p class="tags__post-published">
+                        Published: <span>{{ post.published_date }}</span>
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                There are no tags yet.
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock javascript %}

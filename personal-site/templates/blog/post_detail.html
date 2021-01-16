@@ -1,0 +1,267 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<section class="posts">
+    {% if more_blogs %}
+    <div class="posts__more-blogs">
+        <p class="nunito-font">More Blogs</p>
+        <ul>
+            {% for more_blog in more_blogs %}
+                {% if prev_page_session %}
+                <li><a href="{% url 'post-detail' more_blog.post__id %}?prev_page_session={{ prev_page_session }}">{{ more_blog.post__title }}</a></li>
+                {% else %}
+                <li><a href="{% url 'post-detail' more_blog.post__id %}">{{ more_blog.post__title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if post %}
+       <div class="posts__container">
+            <!-- Post manage -->
+            <div class="posts__manage">
+            {% if prev_page_session %}
+                <a href="{% url 'post-list' %}?page={{ prev_page_session }}">Back</a>
+                {% if request.session.authorized %}
+                <a href="{% url 'post-form' %}?id={{ post.id }}&prev_page_session={{ prev_page_session }}&post_list=0">Edit</a>
+                <a href="{% url 'post-decipher-list' post.id %}?prev_page_session={{ prev_page_session }}&post_list=0">Deciphers</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'post-list' %}">Back</a>
+                {% if request.session.authorized %}
+                <a href="{% url 'post-form' %}?id={{ post.id }}&post_list=0">Edit</a>
+                <a href="{% url 'post-decipher-list' post.id %}?post_list=0">Deciphers</a>
+                {% endif %}
+            {% endif %}        
+            </div>
+
+            <h1 class="posts__title bantayog-font">{{ post.title }}</h1>
+            <div class="posts__published">
+                <p>Published: {{ post.published_date | date:"M d, Y h:i a" }}</p>
+            </div>
+            <div class="posts__content">
+                {{ post.sanitized_content | safe }}                
+            </div>
+            {% if post.tags.all %}
+            <div class="posts__tags">
+                <ul>
+                    {% for tag in post.tags.all %}
+                    <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if deciphers %}
+            {% for decipher in deciphers %}
+            <div id="{{ decipher.name }}" class="posts__deciphers modal">
+                <div class="card">
+                    <i class="fas fa-times decipher-close"></i>
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <form class="decipher-form"
+                            action=""
+                            data-checkcode-url="{% url 'api:decipher-check-code' decipher.id %}">
+                            <div class="decipher-form-row">
+                                <p class="clue"><span>clue:</span>{{ decipher.clue }}</p>
+                            </div>
+                            <div class="decipher-form-row">
+                                <img src="{{ decipher.clue_photo_url }}" alt="">
+                            </div>
+                            <div class="decipher-form-row code">
+                                <input type="text" name="code">
+                                <button type="submit">Enter</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer"></div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    // https://stackoverflow.com/a/11381730 check if mobile browser or not
+    window.mobileCheck = function() {
+        let check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+        return check;
+    };
+
+    let isMobileBrowser = mobileCheck();
+    let matchMediaTablet = window.matchMedia("(max-width: 768px)");
+    let matchMediaPhone = window.matchMedia("(max-width: 600px)");
+
+    const toolTipContainers = document.querySelectorAll('.decipher.tooltip-container');
+    toolTipContainers.forEach(toolTipContainer=>{
+        toolTipContainer.addEventListener('click', (e)=>{
+            // if media screen is equal or lower than 768px, use modal form
+            // else use tooltip form
+            if ((matchMediaTablet.matches && isMobileBrowser) || matchMediaPhone.matches) {
+                const targetModalID = toolTipContainer.getAttribute('data-target');
+                document.body.style.overflow = "hidden";
+                document.querySelector('html').style.overflow = "hidden";
+                
+                // get hidden modal using target modal ID and show
+                const modalTarget = document.querySelector(targetModalID);
+                modalTarget.style.display = "block";
+            } else {
+                // use tooltip if not mobile browser
+                if (e.target.classList.contains("tooltip-container")){
+                    toolTipContainer.classList.toggle("active");
+                    e.target.firstElementChild.classList.toggle("show");
+                }
+            } 
+        });
+    });
+
+    async function checkCode(url='', data={}) {
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    const decipherForms = document.querySelectorAll('.decipher-form');
+    decipherForms.forEach(decipherForm=>{
+        const checkCodeEndpoint = decipherForm.getAttribute('data-checkcode-url');
+        decipherForm.addEventListener('submit', async (e)=>{
+            e.preventDefault();
+            // console.log(e.target);
+            // form.notify-form > .notify-form-row:last-child input
+
+            function createRevealParagraph(hiddenText, color="#323643") {
+                let revealParagraph = document.createElement('p');
+                revealParagraph.style.color = color;
+                revealParagraph.innerHTML = hiddenText;
+                return revealParagraph;
+            }
+
+            const codeInput = decipherForm.lastElementChild.firstElementChild;
+            let checkCodeResult = await checkCode(checkCodeEndpoint, {'code': codeInput.value});
+            //console.log(JSON.stringify(checkCodeResult));
+            if (checkCodeResult.hasOwnProperty('hidden_text')) {
+                //alert(checkCodeResult['hidden_text']);
+                //console.log(e.target);
+                
+                // cant reuse variable in this case, need to recreate new element and insert to
+                // target element
+                let revealParagraph = createRevealParagraph(checkCodeResult['hidden_text']);
+
+                let modal = e.target.closest('.modal');
+                let notifyContainer = e.target.closest('.notify-container');
+
+                if (modal == null && notifyContainer != null) {
+
+                    // append reveal paragraph
+                    notifyContainer.appendChild(revealParagraph);
+
+                    // hide the form under ntotify container
+                    let notifyForm = notifyContainer.querySelector('.decipher-form');
+                    notifyForm.style.display = "none";
+
+                    // genrate new reveal paragraph for modal form
+                    revealParagraph = createRevealParagraph(checkCodeResult['hidden_text']);
+                    
+                    // notify container
+                    let tooltipContainer = notifyContainer.parentElement;
+                    let decipherModalID = tooltipContainer.getAttribute('data-target');
+
+                    const decipherModal = document.querySelector(decipherModalID);
+                    //console.log(decipherModal);
+                    
+                    let decipherModalCardBody = decipherModal.querySelector('.card .card-body');
+                    decipherModalCardBody.appendChild(revealParagraph);
+
+                    let decipherForm = decipherModal.querySelector('.card .card-body .decipher-form');
+                    //console.log(decipherForm);
+
+                    decipherForm.style.display = "none";
+                    
+                } else if (modal != null && notifyContainer == null) {
+                    // modal
+
+                    let modalCardBody = modal.querySelector('.card .card-body');
+                    modalCardBody.appendChild(revealParagraph);
+
+                    let decipherForm = modal.querySelector('.card .card-body .decipher-form');
+                    decipherForm.style.display = "none";
+
+
+                    let modalID = modal.getAttribute('id');
+                    let tooltipContainer = document.getElementById(`tooltip-${modalID}`);
+
+                    let notifyContainer = tooltipContainer.firstElementChild;
+                    revealParagraph = createRevealParagraph(checkCodeResult['hidden_text']);
+                    notifyContainer.appendChild(revealParagraph);                    
+
+                    let notifyForm = notifyContainer.querySelector('.notify-form');
+                    notifyForm.style.display = "none";
+                }
+            }
+        });
+    });
+
+    const decipherFormClose = document.querySelectorAll('.decipher-close');
+    decipherFormClose.forEach(formClose=> {
+        formClose.addEventListener('click', (e)=>{
+            if ((matchMediaTablet.matches && isMobileBrowser) || matchMediaPhone.matches) {
+                document.body.style.overflow = "auto";
+                document.querySelector('html').style.overflow = "auto";
+
+                const modal = e.target.closest('.modal');
+                modal.style.display = "none";
+            } else {
+                //console.log(e.target);
+                // tooltip container toggle active class
+                const tooltipContainer = e.target.closest('.tooltip-container');
+                tooltipContainer.classList.toggle("active");
+                
+                // notify container toggle show class
+                e.target.parentElement.classList.toggle("show");
+            }
+        });
+    });
+
+    window.addEventListener('resize', (e) => {
+        //console.log(`HEIGHT: ${window.innerHeight}`);
+        //console.log(`WIDTH: ${window.innerWidth}`);
+        if ((matchMediaTablet.matches && isMobileBrowser) || matchMediaPhone.matches) {
+
+            let notifyContainers = document.querySelectorAll('.notify-container');
+            notifyContainers.forEach(notifyContainer => {
+                // remove active and show classes from notify and tooltip containers
+                if (notifyContainer.classList.contains("show")) {
+                    let tooltipContainer = notifyContainer.closest('.tooltip-container');
+                    if (tooltipContainer.classList.contains("active")) {
+                        tooltipContainer.classList.remove("active");
+                    }
+                    notifyContainer.classList.remove("show");
+                }
+            });
+
+        } else {
+            let decipherModals = document.querySelectorAll('.posts__deciphers.modal');
+            decipherModals.forEach(decipherModal => {
+                let decipherModalDisplay = decipherModal.style.display;
+                if (decipherModalDisplay == "block") {
+                    document.body.style.overflow = "auto";
+                    document.querySelector('html').style.overflow = "auto";
+                    decipherModal.style.display = "none";                    
+                }
+                
+            });
+        }
+    });
+</script>
+{% endblock %}

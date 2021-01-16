@@ -1,0 +1,37 @@
+@include media-lg {
+    .burger-menu {
+        display: none;
+    }
+
+    .main-nav {
+        position: initial !important;
+        height: initial !important;
+        width: 100% !important;
+        background-color: $secondaryColor !important;
+        margin-top: .5em !important;
+
+        &__list {
+            width: 100%;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            font-size: 2.5em !important;
+        }
+
+        &__item {
+            margin-right: .5em;
+        }
+
+        &__link {
+            color: $primaryColor !important;
+        }
+
+        &__link:hover {
+            color: $accentOne !important;
+        }
+    }
+
+    .main-nav .close-menu {
+        display: none;
+    }
+}

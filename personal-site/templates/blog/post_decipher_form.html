@@ -1,0 +1,129 @@
+{% extends 'base2.html' %}
+
+{% block head_extension %}{% endblock %}
+{% block content %}
+<section class="deciphers">
+    <div class="deciphers__manage">
+    {% if prev_page_session %}
+        {% if prev_decipher_page_session %}
+        <a href="{% url 'post-decipher-list' decipher.post.id %}?page={{ prev_decipher_page_session }}&prev_page_session={{ prev_page_session }}&post_list={{ post_list }}">Back</a>
+        {% else %}
+        <a href="{% url 'post-decipher-list' decipher.post.id %}?prev_page_session={{ prev_page_session }}&post_list={{ post_list }}">Back</a>
+        {% endif %}
+    {% else %}
+        {% if prev_decipher_page_session %}
+        <a href="{% url 'post-decipher-list' decipher.post.id %}?page={{ prev_decipher_page_session }}&post_list={{ post_list }}">Back</a>
+        {% else %}
+        <a href="{% url 'post-decipher-list' decipher.post.id %}?post_list={{ post_list }}">Back</a>           
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="deciphers__form-container">
+        <form
+            action=""
+            id="decipher-form"
+            class="deciphers__form"
+            method="POST">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            
+            <div class="deciphers__form-group">
+                {{ form.clue.label_tag }}
+                {{ form.clue.errors }}
+                {{ form.clue }}
+            </div>
+            <div class="deciphers__form-group">
+                <input type="file" name="_cluephoto">
+            </div>
+             <div class="deciphers__form-group">
+                {{ form.code.label_tag }}
+                {{ form.code.errors }}
+                {{ form.code }}
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+{% block javascript %}
+<script>
+    /**
+     * CONSANTS HERE 
+     */
+    const MAX_FILESIZE_ALLOWANCE = 5000000;
+    const MAX_DEST_IMAGE_SIDE = 3200;
+    const ACCEPTED_IMAGES = ["jpg", "jpeg", "png"];
+
+    const cluePhotoInput = document.querySelector('input[type="file"][name="_cluephoto"]');
+    cluePhotoInput.addEventListener('change', (e)=>{
+        let file = e.target.files[0];
+        let fileExtension = file.name.split('.').pop();
+        
+        let promiseCompressImage = new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = event => {
+                // instantiate Image object
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let finalWidth = MAX_DEST_IMAGE_SIDE;
+                    let finalHeight = MAX_DEST_IMAGE_SIDE;
+
+                    // create canvas element
+                    const canvas = document.createElement('canvas');
+
+                    // maintain aspect ratio for image
+                    if (img.width > img.height) {
+                        finalWidth = MAX_DEST_IMAGE_SIDE;
+                        finalHeight = img.height * (MAX_DEST_IMAGE_SIDE / img.width);
+                    } else if (img.width < img.height) {
+                        finalWidth = img.width * (MAX_DEST_IMAGE_SIDE / img.height);
+                        finalHeight = MAX_DEST_IMG_SIDE;
+                    }
+
+                    canvas.width = finalWidth;
+                    canvas.height = finalHeight;
+
+                    // draw image of created canvas
+                    const context = canvas.getContext('2d');
+
+                    // img.width and img.height will contain the original dimensions
+                    // draw the image in the created canvas with aspect ratio
+                    context.drawImage(img, 0, 0, finalWidth, finalHeight);
+
+                    // generate the jpeg base64 string of the drawn image
+                    var jpegBase64 = context.canvas.toDataURL("image/jpeg", 0.9);
+
+                    // jpeg base64 conversion successful
+                    resolve(jpegBase64);
+                }
+                reader.onerror = error => reject(error);
+            }
+        });
+
+        if (ACCEPTED_IMAGES.includes(fileExtension)) {
+            promiseCompressImage.then((jpegBase64)=>{
+                // generate new filename
+                const cluePhotoHidden = document.querySelector('input[name="clue_photo"]');
+                const cluePhotoNameHidden = document.querySelector('input[name="clue_photo_name"]');
+                
+                cluePhotoNameHiddenValue = cluePhotoNameHidden.value;
+                let newFileName = (cluePhotoNameHiddenValue === '') ? (Math.random()*1e32).toString(36) : cluePhotoNameHiddenValue;
+                
+                cluePhotoNameHidden.value = newFileName;
+                cluePhotoHidden.value = jpegBase64;
+                
+            });
+        }
+    });
+
+</script>
+{% endblock %}

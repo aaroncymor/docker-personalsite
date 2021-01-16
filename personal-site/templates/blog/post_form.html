@@ -1,0 +1,177 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+
+{% block head_extension %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<section class="posts">
+    <div class="posts__manage">
+    {% if request.session.authorized %}
+        {% if prev_page_session and post_list == '1' %}
+        <a href="{% url 'post-list' %}?page={{ prev_page_session }}">Back</a>
+        {% elif prev_page_session and post_list == '0' %}
+        <a href="{% url 'post-detail' post_id %}?prev_page_session={{ prev_page_session }}">Back</a>
+        {% else %}
+        <a href="{% url 'post-list' %}">Back</a>
+        {% endif %}
+
+        <!-- Dont show if add new post page, else if edit show -->
+        {% if post_id %}
+        <a href="{% url 'post-decipher-list' post_id %}?prev_page_session={{ prev_page_session }}">Deciphers</a>
+        {% endif %}
+   {% else %}
+    <a href="{% url 'post-list' %}">Back</a>
+    <a href="{% url 'post-detail' post_id %}">Back</a>
+    <a href="{% url 'post-decipher-list' post_id %}">Deciphers</a>
+    {% endif %}
+    </div>
+    <div class="posts__form-container">
+        <input type="hidden" id="post-id" value="{{ post_id }}">
+        <form id="post-form" class="posts__form" method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            {{ form.source.errors }}
+            {{ form.source }}
+
+            <!--Post Category field-->
+            <div class="posts__form-group">
+                {{ form.category_id.label_tag }}
+                {{ form.category_id.errors }}
+                {{ form.category_id }}
+            </div>
+            <!-- Post Title field -->
+            <div class="posts__form-group">
+                {{ form.title.label_tag }}
+                {{ form.title.errors }}
+                {{ form.title }}
+            </div>
+            <!-- Post Content field -->
+            <div class="posts__form-group">
+                {{ form.content.label_tag }}
+                {{ form.content.errors }}
+                {{ form.content }}
+            </div>
+            <!-- Post Tags field-->
+            <div class="posts__form-group">
+                <div class="posts__tags">
+                    <ul id="tag-list"></ul>
+                    <input id="tag-field" type="text">
+                </div>
+                <div id="tag-input-container"></div>
+            </div>
+            <div class="posts__form-group">
+                {{ form.publish.label_tag }}
+                {{ form.publish.errors }}
+                {{ form.publish }}
+            </div>
+            <input class="posts__form-submit" type="submit" value="Save">
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const postForm = document.querySelector('#post-form');
+    postForm.addEventListener('keypress', (e)=>{
+        /* reference: https://stackoverflow.com/a/587575 */
+        e = e || event;
+        var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+        return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+    });
+
+    let tags = [];
+    async function getTags(url='', data={}) {
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    window.onload = async () => {
+        const postIDInput = document.getElementById('post-id');
+        
+        if (postIDInput.value) {
+            tags = await getTags('/api/v1/post-tags', {
+                'post_id': postIDInput.value  
+            });
+            console.log(tags);
+        }
+ 
+        // render tag related HTML elements after update 
+        renderTags();
+    }
+
+    /**
+    * reference: https://codepen.io/buglessir/pen/MWwOaKd
+    * chip tags
+    */
+
+    // tag list div child should only by ul, at index 0
+    let tagList = document.getElementById('tag-list');
+    let tagField = document.getElementById('tag-field');
+    let tagInputContainer = document.getElementById('tag-input-container');
+    
+    function renderTags() {
+        // refresh ul element innher html, make it blank or empty string
+        tagList.innerHTML = '';
+        
+        // refresh input hidden container for tags
+        tagInputContainer.innerHTML = '';
+
+        tags.map((tag, index) => {
+            // add a li under ul
+            tagList.innerHTML += `<li data-tag-index="${index}"><span>${tag}</span><a class="tag-close" href="#">x</a></li>`;
+            
+            // add input field name tags
+            tagInputContainer.innerHTML += `<input type="hidden" name="tags" value="${tag}">`;
+        });
+    }
+
+    function removeTag(index) {
+        tags = tags.filter(tag => tags.indexOf(tag) != index);
+        renderTags();
+    }
+
+    // event delegation for dynamically added elements
+    document.addEventListener('click', (e)=>{
+        if (e.target && e.target.classList.contains("tag-close")){
+            // get assigned value for data-tag-index property from li element
+            let tagIndex = e.target.parentElement.getAttribute('data-tag-index');
+            removeTag(tagIndex);
+        }
+    });
+
+    tagField.addEventListener('keypress', (e)=>{
+        if (e.key === 'Enter'){
+            let val = tagField.value;
+            console.log(`val: ${val}`);
+            if (val !== ''){
+                // check if duplicate or not
+                if (tags.indexOf(val) >= 0){
+                    // show error message of duplicate tag entry
+                    alert('Tag name is a duplicate');
+                } else {
+                    tags.push(val);
+                    renderTags();
+                    tagField.value = '';
+                    tagField.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

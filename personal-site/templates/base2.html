@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Aa Blogs</title>
+    
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    {% block head_extension %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="burger-menu">
+           <i class="fas fa-bars"></i> 
+        </div>
+        <nav class="main-nav">
+            <div class="close-menu">
+                <i class="fas fa-times"></i>
+            </div>
+            <ul class="main-nav__list">
+                <li class="main-nav__item">
+                    <a href="#home" class="main-nav__link">Home</a>
+                </li>
+                <li class="main-nav__item">
+                    <a href="#blog" class="main-nav__link">Blog</a>
+                </li>
+                <li class="main-nav__item">
+                    <a href="#portfolio" class="main-nav__link">Portfolio</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer></footer>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block javascript %}{% endblock %}
+</body>
+</html>

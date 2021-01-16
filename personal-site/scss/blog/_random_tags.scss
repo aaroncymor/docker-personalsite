@@ -1,0 +1,73 @@
+.tags {
+    min-height: 100vh;
+
+    &__container {
+        display: block;
+        margin: 0 auto;
+        width: 40%;
+        padding: 2em;
+        border-radius: 14px;
+        border: 1px solid $secondaryColor;
+        margin-top: 2em;
+    }
+
+    &__manage {
+        padding: 1.2em 1.5em;
+    }
+
+    &__manage a {
+        text-decoration: underline;
+        font-family: 'Bantayog', sans-serif;
+        color: $primaryColor;
+    }
+
+    &__manage a:hover {
+        color: $accentOne;
+    }
+
+    &__title {
+        text-align: center;
+        font-family: 'Nunito';
+        font-size: 2em;
+    }
+
+    &__list {
+        padding: 1em;
+        width: 100%;
+        display: inline-flex;
+        justify-content: center;
+        list-style-type: none;
+        color: $primaryColor;
+    }
+
+    &__item {
+        background: $primaryColor;
+        padding: 6px;
+        border-radius: 22px;
+        margin-right: .6em;
+    }
+
+    &__item a {
+        text-decoration: none;
+        font-family: 'BBT Martires';
+        color: $secondaryColor;
+        font-weight: 700;
+    }
+
+    &__results {
+        padding: 1.2em 1.5em;
+    }
+
+    &__results:not(:last-child) {
+        border-bottom: 1px solid $accentOne;
+    }
+
+    &__post-title {
+        font-size: 1.9em;
+        margin-bottom: .2em;
+    }
+
+    &__post-published {
+        font-weight: 700;
+    }
+}

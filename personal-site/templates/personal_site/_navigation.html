@@ -1,0 +1,35 @@
+{% load static %}
+
+<ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <!--<img src="{% static 'images/office.jpg' %}">-->
+        </div>
+        <!--<a href="#user"><img class="circle" src="{% static 'images/aaroncymor.jpg' %}"></a>-->
+        <a href="#name"><span class="name">Aaron Cymor</span></a>
+        <a href="#email"><span class="email">aaroncymor@gmail.com</span></a>
+      </div>
+      <a href="{% url 'home' %}"><i class="material-icons">face</i>About Me</a>
+    </li>
+    <li><div class="divider"></div></li>
+    {% if request.session.authorized %}
+      <li class="no-padding">
+        <ul>
+          <li>
+            <a href="#!" style="padding: 0 16px;">Blog<i class="material-icons">arrow_drop_down</i></a>
+            <div>
+              <ul>
+                <li><a href="{% url 'post-list' %}?refresh=true">View Posts</a></li>
+                <li><a href="{% url 'post-form' %}">Create Post</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+     <li><a href="{% url 'logout' %}">Logout</li> 
+    {% else %}
+    <li><a href="{% url 'post-list' %}?refresh=true">Blog</a></li>
+    {% endif %}
+</ul>
+<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
