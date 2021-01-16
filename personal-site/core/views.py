@@ -9,7 +9,7 @@ from blog.models import Post
 # Create your views here.
 
 class HomeView(generic.TemplateView):
-    template_name = 'home.html'
+    template_name = 'portfolio/portfolio.html'
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
