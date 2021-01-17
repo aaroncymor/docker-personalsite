@@ -1,8 +1,10 @@
+{% load static %}
+
 <section data-aos-easing="ease-in-back" data-aos="fade-in" data-aos-delay="1500" data-aos-duration="3000" class="profile" id="profile" data-nav-index="0">
     <div class="container box">
         <div class="wrapper">
             <div class="image-border">
-                <img class="profile__img" src="dist/images/itsme.png" alt="">
+                <img class="profile__img" src="{% static 'images/itsme.png' %}" alt="">
             </div>
             <h2 class="profile__intro">Hi, I am <span>Aa</span></h2>
         </div>

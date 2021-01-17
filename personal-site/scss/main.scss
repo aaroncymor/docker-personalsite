@@ -62,17 +62,13 @@ a {
     &__list {
         list-style-type: none;
         font-family: 'Maragsa';
-        font-size: 3.8em;
+        font-size: 2em;
     }
 
     &__link {
         text-decoration: none;
         color: $secondaryColor;
-    }
-
-    &__link:hover {
-        text-decoration: underline;
-        color: $primaryColor;
+        margin-left: .5em;
     }
 }
 

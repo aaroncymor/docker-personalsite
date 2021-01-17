@@ -1,25 +1,166 @@
+{% load static %}
+
 <section class="projects" id="projects" data-nav-index="3">
     <div class="container box">
         <h2 class="projects__heading">Projects</h2>
         <div class="projects__highlights">
             <div data-aos="fade-up" class="projects__card" data-target="#project-1">
                 <div class="projects__body">
-                    <img src="dist/images/redbullmm-web.png" alt="" class="projects__img">
+                    <img src="{% static 'images/redbullmm-web.png' %}" alt="" class="projects__img">
                 </div>
             </div>
             <div data-aos="fade-up" class="projects__card" data-target="#project-2">
                 <div class="projects__body">
-                    <img src="dist/images/rt-web.png" alt="" class="projects__img">
+                    <img src="{% static 'images/rt-web.png' %}" alt="" class="projects__img">
                 </div>
             </div>
             <div data-aos="fade-up" class="projects__card" data-target="#project-3">
                 <div class="projects__body">
-                    <img src="dist/images/sunkist-web.png" alt="" class="projects__img">
+                    <img src="{% static 'images/sunkist-web.png' %}" alt="" class="projects__img">
                 </div>
             </div>
         </div>
         <div class="projects__others">
-            
+            <!-- Project Items -->
+            <div id="project-1" class="project-item">
+                <div class="project-parent-container">
+                    <a href="#" class="project-close">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    <div class="project-container">
+                        <div class="project-header">
+                            <h2>Redbull Myanmar</h2>
+                            <p>January 2020</p>
+                        </div>
+                        <div class="project-content">
+                            <a href="https://redbullmm.com/" 
+                                class="project-visit"
+                                target="_blank">
+                                Visit Site
+                            </a>   
+                            <h4 class="">Introduction</h4>
+                            <p class="project-introduction">
+                                <span>
+                                    The company needed a website, and a chatbot to 
+                                    promote their products.
+                                </span> 
+                                I was mainly responsible for the continuing with our API server's 
+                                improvements that handles all the chatbot's requests, and a simple website
+                                to advertise their promo. The backend provides rewards to winners with 
+                                top-up / load to their phones.
+                            </p>
+                            <h4 class="">Challenges</h4>
+                            <p class="project-challenges">
+                                With only two weeks left to complete the project, I was given 
+                                the opportunity to go to Myanmar, and finish the project.  
+                                This was pretty challenging since, I am unfamiliar with some 
+                                libraries like pyserial, and celery.
+                            </p>
+                            <h4 class="">Approach</h4>
+                            <p class="project-approach">
+                                Before the development even started, I was already aware of the project's  
+                                difficulty after making an assessment. I created my own version of 
+                                documentation of the system to understand the its flow and how 
+                                I can add my adjustments to fit the client's needs. Eventually, I was able 
+                                to finish the project on time.
+                            </p>
+
+                            <img src="{% static 'images/redbullmm-web.png' %}" alt="" class="project-image">
+                        </div>
+                        <div class="project-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="project-2" class="project-item">
+                <div class="project-parent-container">
+                    <a href="#" class="project-close">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    <div class="project-container">
+                        <div class="project-header">
+                            <h2>Rising Tide Digital</h2>
+                            <p>February 2020</p>
+                        </div>
+                        <div class="project-content">
+                            <a href="https://www.risingtide.ph" 
+                                class="project-visit"
+                                target="_blank">
+                                Visit Site
+                            </a>  
+                            <h4 class="">Introduction</h4>
+                            <p class="project-introduction">
+                                <span>The company wanted a new look and feel for their website.</span>
+                                It was already built with wordpress. The goal is to successfully 
+                                interpret all the templates made by our Web Designer into 
+                                fully functioning website.
+                            </p>
+                            <h4 class="">Challenges</h4>
+                            <p class="project-challenges">
+                                Having only 8 months of experience in PHP, and Wordpress, I 
+                                needed to refresh my knowledge about these technologies since 
+                                the last time I used them was around 2015. Also, I have
+                                been working more on backend related stuff lately, than in the 
+                                frontend so I'm not that confident with my HTML, CSS, and Javascript
+                                skills. I am also really used to utilizing Bootstrap in most of our 
+                                projects.
+                            </p>
+                            <h4 class="">Approach</h4>
+                            <p class="project-approach">
+                            By allotting time to refresh my knowledge on frontend, PHP, 
+                                & Wordpress I managed to complete the website on time. I was 
+                                able to create wordpress shortcodes to generate custom cards. 
+                                Website responsiveness was not that difficult anymore when I 
+                                learned how to incorporate flex boxes, and grids. The approach made 
+                                me became less reliant on Bootstrap, and other CSS frameworks.
+                            </p>
+                            <img src="{% static 'images/rt-web.png' %}" alt="" class="project-image">
+                        </div>
+                        <div class="project-footer"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="project-3" class="project-item">
+                <div class="project-parent-container">
+                    <a href="#" class="project-close">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    <div class="project-container">
+                        <div class="project-header">
+                            <h2>Sunkist Myanmar</h2>
+                            <p>January 2018</p>
+                        </div>
+                        <div class="project-content">
+                            <a href="https://sunkistmyanmar.com" 
+                                class="project-visit"
+                                target="_blank">
+                                Visit Site
+                            </a>   
+                            <h4 class="">Introduction</h4>
+                            <p class="project-introduction">
+                                <span>The company needed a website, to promote their products.</span>
+                                The site has a page for promotion, and a simple CMS that allows
+                                them to change assets like videos, images, and some content.
+                            </p>
+                            <h4 class="">Challenges</h4>
+                            <p class="project-challenges">
+                                This was my first ever real project with Django, since I was
+                                just hired by the company to be their Fullstack developer 
+                                focusing on Python.
+                            </p>
+                            <h4 class="">Approach</h4>
+                            <p class="project-approach">
+                                I was already familiar with the language, and Django framework
+                                is not new to me. I have run through their documentation, and
+                                tried their tutorial. I used bootstrap to be more efficient.
+                                I was able to finish the website on time.
+                            </p>
+                            <img src="{% static 'images/sunkist-web.png' %}" alt="" class="project-image">
+                        </div>
+                        <div class="project-footer"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

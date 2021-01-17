@@ -165,8 +165,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-# Accounts Settings
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/blog/'
 
 from django.conf.urls.static import static
 
