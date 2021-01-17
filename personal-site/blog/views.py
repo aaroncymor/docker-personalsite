@@ -328,8 +328,11 @@ class PostDecipherFormView(LoginRequiredMixin, generic.FormView):
         if not decipher:
             raise Http404
 
+        print("REQUEST POST", request.POST)
         if form.is_valid():
             data = request.POST.copy()
+
+            print("DATA", data)
 
             clue = data.get('clue', None)
             code = data.get('code', None)
