@@ -28,7 +28,7 @@ services:
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
-      - nginx_log_volumne:/var/log/nginx
+      - nginx_log_volume:/var/log/nginx
     ports:
       - "80:80"
     depends_on:
